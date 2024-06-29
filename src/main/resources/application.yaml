@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: crypto-trading-system
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+
+# ===============================
+# Binance
+# ===============================
+binance:
+  service:
+    host: https://api.binance.com
+    getBinanceBookTickerUrl: ${binance.service.host}/api/v3/ticker/bookTicker
+
+# ===============================
+# Huobi
+# ===============================
+huobi:
+  service:
+    host: https://api.huobi.pro
+    getHuobiMarketTickerUrl: ${huobi.service.host}/market/tickers
+
