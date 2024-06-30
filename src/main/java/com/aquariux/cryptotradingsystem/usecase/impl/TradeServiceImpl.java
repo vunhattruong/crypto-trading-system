@@ -92,7 +92,7 @@ public class TradeServiceImpl implements TradeService {
         }
 
         // Update wallet balances and record the trade
-        updateWalletBalances(user, tradeType, totalCost, amount);
+        updateWalletBalances(tradeType, totalCost, amount);
 
         // Save the updated wallet balances
         baseWallet.setBalance(baseBalance.get());
@@ -135,7 +135,7 @@ public class TradeServiceImpl implements TradeService {
         }
     }
 
-    private void updateWalletBalances (UserCrypto user, String tradeType, Double totalCost, Double amount) {
+    private void updateWalletBalances (String tradeType, Double totalCost, Double amount) {
         if ( TradeTypeEnum.BUY.name().equalsIgnoreCase(tradeType) ) {
             // Update wallet balances for BUY trade
             quoteBalance.addAndGet(-totalCost);
