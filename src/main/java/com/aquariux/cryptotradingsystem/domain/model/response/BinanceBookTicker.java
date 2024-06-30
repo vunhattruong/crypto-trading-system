@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BinanceBookTicker {
     private String symbol;
-    private Double bidPrice;
-    private Double bidQty;
-    private Double askPrice;
-    private Double askQty;
+    private String bidPrice;
+    private String bidQty;
+    private String askPrice;
+    private String askQty;
 }

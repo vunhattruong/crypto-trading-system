@@ -1,6 +1,6 @@
 package com.aquariux.cryptotradingsystem.domain.constant;
 
-public enum TradingPairEnum {
-    ETHUSDT,
-    BTCUSDT
+public enum TradeTypeEnum {
+    BUY,
+    SELL
 }
