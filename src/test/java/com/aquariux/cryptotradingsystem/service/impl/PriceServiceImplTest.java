@@ -27,6 +27,7 @@ import com.aquariux.cryptotradingsystem.domain.constant.TradingPairEnum;
 import com.aquariux.cryptotradingsystem.domain.entity.Price;
 import com.aquariux.cryptotradingsystem.domain.model.dto.MarketTickerDTO;
 import com.aquariux.cryptotradingsystem.infra.persistence.PriceRepository;
+import com.aquariux.cryptotradingsystem.usecase.impl.PriceServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class PriceServiceImplTest {

@@ -26,7 +26,8 @@ import com.aquariux.cryptotradingsystem.domain.model.dto.TransactionDTO;
 import com.aquariux.cryptotradingsystem.infra.persistence.TransactionRepository;
 import com.aquariux.cryptotradingsystem.infra.persistence.UserRepository;
 import com.aquariux.cryptotradingsystem.infra.persistence.WalletRepository;
-import com.aquariux.cryptotradingsystem.service.PriceService;
+import com.aquariux.cryptotradingsystem.usecase.PriceService;
+import com.aquariux.cryptotradingsystem.usecase.impl.TradeServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class TradeServiceImplTest {

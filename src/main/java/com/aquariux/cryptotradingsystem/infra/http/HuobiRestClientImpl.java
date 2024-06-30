@@ -1,19 +1,21 @@
 package com.aquariux.cryptotradingsystem.infra.http;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.aquariux.cryptotradingsystem.domain.client.HuobiClient;
+import com.aquariux.cryptotradingsystem.domain.constant.TradingPairEnum;
+import com.aquariux.cryptotradingsystem.domain.exception.ServiceException;
+import com.aquariux.cryptotradingsystem.domain.model.dto.MarketTickerDTO;
 import com.aquariux.cryptotradingsystem.domain.model.response.HuobiMarketTicker;
+import com.aquariux.cryptotradingsystem.domain.model.response.MarketTickerRes;
 import com.aquariux.cryptotradingsystem.infra.config.HuobiConfig;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,21 +31,31 @@ public class HuobiRestClientImpl implements HuobiClient {
     }
 
     @Override
-    public Optional<HuobiMarketTicker> getHuobiTicker () {
+    public Optional<List<MarketTickerDTO>> getHuobiMarketTicker () {
         try {
-            UriComponents uriComponents = UriComponentsBuilder
-                .fromHttpUrl(huobiConfig.getHuobiMarketTickerUrl())
-                .build();
-
-            ResponseEntity<HuobiMarketTicker> response = restTemplate.exchange(
-                uriComponents.toString(),
-                HttpMethod.GET,
-                HttpEntity.EMPTY,
-                HuobiMarketTicker.class
-            );
-
-            if ( response.getStatusCode() == HttpStatus.OK ) {
-                return Optional.of(response.getBody());
+            String          baseUrl  = huobiConfig.getHuobiMarketTickerUrl();
+            MarketTickerRes response = restTemplate.getForObject(baseUrl, MarketTickerRes.class);
+            if ( response != null ) {
+                List<HuobiMarketTicker> tickers = response.getData();
+                if ( tickers != null ) {
+                    tickers = tickers.stream()
+                                     .filter(ticker ->
+                                                 TradingPairEnum.ETHUSDT.name().equalsIgnoreCase(ticker.getSymbol()) ||
+                                                 TradingPairEnum.BTCUSDT.name().equalsIgnoreCase(ticker.getSymbol()))
+                                     .collect(Collectors.toList());
+                    response.setData(tickers);
+                }
+                List<MarketTickerDTO> marketTickers = new ArrayList<>();
+                if ( tickers != null ) {
+                    for (HuobiMarketTicker ticker : tickers) {
+                        marketTickers.add(MarketTickerDTO.builder()
+                                                         .symbol(ticker.getSymbol())
+                                                         .askPrice(ticker.getAsk())
+                                                         .bidPrice(ticker.getBid())
+                                                         .build());
+                    }
+                }
+                return Optional.of(marketTickers);
             }
             else {
                 return Optional.empty();
@@ -51,7 +63,8 @@ public class HuobiRestClientImpl implements HuobiClient {
         }
         catch (RestClientException e) {
             log.error("Error fetching Huobi market ticker", e);
-            return Optional.empty();
+            throw new ServiceException(
+                "Error fetching Huobi market ticker with error {}: " + e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

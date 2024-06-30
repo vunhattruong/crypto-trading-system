@@ -13,8 +13,6 @@ import java.util.Optional;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -22,8 +20,8 @@ import com.aquariux.cryptotradingsystem.domain.client.BinanceClient;
 import com.aquariux.cryptotradingsystem.domain.client.HuobiClient;
 import com.aquariux.cryptotradingsystem.domain.constant.SourceSystemEnum;
 import com.aquariux.cryptotradingsystem.domain.model.dto.MarketTickerDTO;
-import com.aquariux.cryptotradingsystem.infra.persistence.PriceRepository;
-import com.aquariux.cryptotradingsystem.service.PriceService;
+import com.aquariux.cryptotradingsystem.usecase.PriceService;
+import com.aquariux.cryptotradingsystem.usecase.impl.SourcePriceServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class SourcePriceServiceImplTest {
@@ -58,8 +56,8 @@ public class SourcePriceServiceImplTest {
     @Test
     void testFetchAndStorePricesFromHuobi () {
         // Given
-        HuobiClient  huobiClient  = mock(HuobiClient.class);
-        PriceService priceService = mock(PriceService.class);
+        HuobiClient            huobiClient  = mock(HuobiClient.class);
+        PriceService           priceService = mock(PriceService.class);
         SourcePriceServiceImpl service      = new SourcePriceServiceImpl(null, huobiClient, priceService);
 
         Optional<List<MarketTickerDTO>> huobiPrices = Optional.of(Arrays.asList(

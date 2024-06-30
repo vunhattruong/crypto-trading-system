@@ -5,10 +5,17 @@ spring:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
     username: sa
-    password:
+    password: password
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-
+  h2:
+    console:
+      enabled: true
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema/h2init.sql
+      data-locations: classpath:data/h2data.sql
 # ===============================
 # Binance
 # ===============================
@@ -25,3 +32,11 @@ huobi:
     host: https://api.huobi.pro
     getHuobiMarketTickerUrl: ${huobi.service.host}/market/tickers
 
+# ===============================
+# Schedule to get data from sources - 10s
+# ===============================
+get:
+  prices:
+    fixed-rate:
+      in:
+        milliseconds: 10000

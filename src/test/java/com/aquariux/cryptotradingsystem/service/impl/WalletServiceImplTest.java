@@ -24,6 +24,7 @@ import com.aquariux.cryptotradingsystem.domain.exception.ServiceException;
 import com.aquariux.cryptotradingsystem.domain.model.dto.WalletDTO;
 import com.aquariux.cryptotradingsystem.infra.persistence.UserRepository;
 import com.aquariux.cryptotradingsystem.infra.persistence.WalletRepository;
+import com.aquariux.cryptotradingsystem.usecase.impl.WalletServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class WalletServiceImplTest {
@@ -44,8 +45,8 @@ public class WalletServiceImplTest {
     @Test
     void testGetWalletsForUser_validUser () {
         // Given
-        String userId   = "1";
-        UserCrypto user = mock(UserCrypto.class);
+        String     userId      = "1";
+        UserCrypto user        = mock(UserCrypto.class);
         Wallet     baseWallet  = new Wallet(user, "BTC", 1.0);
         Wallet     quoteWallet = new Wallet(user, "ETH", 2.0);
         List<Wallet> wallets = Arrays.asList(
