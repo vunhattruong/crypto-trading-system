@@ -2,14 +2,22 @@
 
 ### Project structure
 
-- This project is using Clean Architecture template with some adjustments to make it suitable for the usecase.
+- This project is using Clean Architecture template with some adjustments to make it suitable for the use case.
 - Key concepts:
     - Any layer cannot reference, as well as know nothing about the layer above it
     - `usecase` & `domain` are the core of application, business logic should be defined in here, with minimal or no
       external libraries,dependencies.
 
+It is a Maven project, and Java is used as the language.
+Java 17 is set as the compatible version.
+
+The framework used is Spring Boot.
+
+API collections are available for you to quickly test the API:
+
+Postman API collection: ~\crypto-trading-system\src\main\resources\Crypto.postman_collection.json
 ```
-wf-identification
+crypto-trading-system
 │   README.md 
 │   ...
 └───domain (Core)
@@ -35,15 +43,17 @@ wf-identification
 │
 ```
 
-### Code styles & formatting
-
-- Please import the file `CodeStyle.xml` to your IDEA before working on the project.
-- For Intellij, choose `File > Setting > Code Style > Scheme > Import Scheme > Intellij IDEA code style XML` and choose
-  the file to import
-
 ## Build and Test
 
-TODO: Describe and show how to build your code and run the tests.[TBD]
+1. mvn clean install
+2. Start project using IDE
+3. Go to http://localhost:8080/h2-console with default credential(sa/password)
+4. Run script to add data sample: ~\crypto-trading-system\src\main\resources\data\h2data.sql
+5. Download postman API then run the endpoint:
+   - GET - Latest price by currencyPair: localhost:8080/api/v1/prices/latest?currencyPair=BTCUSDT
+   - POST - Execute trade: localhost:8080/api/v1/trades/execute
+   - GET -Get user wallet: localhost:8080/api/v1/wallets?userId=1
+   - GET -Get trade history by user: localhost:8080/api/v1/trades/history?userId=1
 
 ### Reference Documentation
 
