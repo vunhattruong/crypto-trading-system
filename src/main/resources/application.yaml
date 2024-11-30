@@ -2,18 +2,18 @@ spring:
   application:
     name: crypto-trading-system
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: password
+    url:  jdbc:postgresql://ep-rapid-rice-a5dqebw3.us-east-2.aws.neon.tech:5432/testdb
+    driver-class-name: org.postgresql.Driver
+    username: testdb_owner
+    password: svQg6Yl4tVzO
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
   h2:
     console:
       enabled: true
   sql:
     init:
-      mode: always
+      mode: embedded
       schema-locations: classpath:schema/h2init.sql
       data-locations: classpath:data/h2data.sql
 # ===============================
@@ -33,10 +33,10 @@ huobi:
     getHuobiMarketTickerUrl: ${huobi.service.host}/market/tickers
 
 # ===============================
-# Schedule to get data from sources - 10s
+# Schedule to get data from sources - 60s
 # ===============================
 get:
   prices:
     fixed-rate:
       in:
-        milliseconds: 10000
+        milliseconds: 60000
