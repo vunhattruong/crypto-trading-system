@@ -2,7 +2,7 @@ spring:
   application:
     name: crypto-trading-system
   datasource:
-    url:  jdbc:postgresql://${DB_HOST}:5432/testdb
+    url:  jdbc:postgresql://${DB_HOST}:5432/${DB_NAME}
     driver-class-name: org.postgresql.Driver
     username: ${DB_USER}
     password: ${DB_PWD}
